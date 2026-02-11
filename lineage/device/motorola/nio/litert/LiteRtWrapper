@@ -1,0 +1,7 @@
+#!/system/bin/sh
+#
+# Script auxiliar para executar o LiteRt
+#
+
+export CLASSPATH=/vendor/framework/litert.jar
+exec app_process /vendor/bin br.edu.ufam.icomp.devtitans.LiteRt "$@"
