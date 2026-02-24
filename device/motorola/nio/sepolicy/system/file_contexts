@@ -1,0 +1,3 @@
+/system/bin/litert              u:object_r:litert_exec:s0
+/system/bin/litert_lm_main      u:object_r:litert_lm_exec:s0
+/data/litert(/.*)?              u:object_r:litert_data_file:s0

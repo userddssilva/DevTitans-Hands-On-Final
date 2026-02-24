@@ -1,0 +1,39 @@
+# 1. Definição dos domínios e tipos
+type litert, domain, coredomain;
+type litert_exec, file_type, system_file_type;
+type litert_lm_exec, file_type, system_file_type;
+
+# 2. Tipo para os modelos em /data/litert
+type litert_data_file, file_type, data_file_type, core_data_file_type;
+
+# 3. Permissões para o SHELL (para você testar com adb unroot)
+# O shell precisa de execute_no_trans porque ele não muda de domínio ao rodar o binário
+allow shell litert_exec:file { read getattr open map execute execute_no_trans };
+allow shell litert_lm_exec:file { read getattr open map execute execute_no_trans };
+allow shell litert_data_file:dir { search read open getattr };
+allow shell litert_data_file:file { read open getattr map };
+
+# 4. Permissões para o SYSTEMUI (platform_app)
+# Aqui é onde a mágica acontece para a sua modificação no SystemUI
+allow platform_app litert_exec:file { read getattr open map execute execute_no_trans };
+allow platform_app litert_lm_exec:file { read getattr open map execute execute_no_trans };
+allow platform_app litert_exec:file { read getattr open map execute execute_no_trans };
+
+# O SystemUI precisa ler o modelo para passar o path para o binário
+allow platform_app litert_data_file:dir { search read open getattr add_name write };
+allow platform_app litert_data_file:file { read open getattr map write create};
+
+# 5. Permissões para o domínio interno litert (se houver transição)
+allow litert litert_lm_exec:file { read getattr open map execute };
+allow litert litert_data_file:dir { search read open getattr };
+allow litert litert_data_file:file { read open getattr map };
+
+# 6. Acesso à GPU (Essencial para o Motorola Nio / Adreno 650)
+# Sem isso, o backend=gpu falha por falta de acesso ao driver
+allow platform_app gpu_device:chr_file { ioctl open read write };
+allow platform_app graphics_device:dir search;
+allow shell gpu_device:chr_file { ioctl open read write };
+
+# 7. Logs
+allow litert logd:unix_stream_socket connectto;
+allow litert logd:fd use;

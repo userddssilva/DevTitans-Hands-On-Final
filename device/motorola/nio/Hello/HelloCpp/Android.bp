@@ -1,0 +1,6 @@
+cc_binary {
+    name: "hello_cpp",
+    srcs: [ "hello_cpp.cpp" ],
+    shared_libs: [ "liblog" ],
+    vendor: true,
+}

@@ -1,0 +1,7 @@
+java_binary {
+    name:        "litert",
+    wrapper:     "LiteRtWrapper",
+    srcs:        [ "src/**/*.java" ],
+    vendor:      true,
+    sdk_version: "current"
+}

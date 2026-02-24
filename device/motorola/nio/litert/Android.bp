@@ -1,0 +1,89 @@
+java_binary {
+    name: "litert",
+    wrapper: "LiteRtWrapper",
+    srcs: [ "src/**/*.java" ],
+    sdk_version: "current",
+    required: [
+        "litert_lm_main",
+    ],
+}
+
+cc_prebuilt_binary {
+    name: "litert_lm_main",
+    srcs: ["bin/litert_lm_main"],
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    shared_libs: [
+        "libEGL",
+        "libGLESv3",
+        "liblog",
+        "libandroid",
+        "libdl",
+    ],
+}
+
+cc_prebuilt_library_shared {
+    name: "libLiteRtGpuAccelerator",
+    srcs: ["lib64/libLiteRtGpuAccelerator.so"],
+    compile_multilib: "64",
+    shared_libs: [
+        "libEGL",
+        "libGLESv3",
+        "liblog",
+    ],
+    allow_undefined_symbols: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libLiteRtOpenClAccelerator",
+    srcs: ["lib64/libLiteRtOpenClAccelerator.so"],
+    compile_multilib: "64",
+    shared_libs: [
+        "libLiteRtGpuAccelerator",
+        "liblog",
+        "libEGL",
+        "libGLESv3",
+    ],
+    allow_undefined_symbols: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libLiteRtTopKOpenClSampler",
+    srcs: ["lib64/libLiteRtTopKOpenClSampler.so"],
+    compile_multilib: "64",
+    shared_libs: [
+        "libLiteRtGpuAccelerator",
+        "liblog",
+        "libEGL",
+        "libGLESv3",
+    ],
+    allow_undefined_symbols: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libLiteRtTopKWebGpuSampler",
+    srcs: ["lib64/libLiteRtTopKWebGpuSampler.so"],
+    compile_multilib: "64",
+    shared_libs: [
+        "libLiteRtGpuAccelerator",
+        "liblog",
+        "libEGL",
+        "libGLESv3",
+    ],
+    allow_undefined_symbols: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libLiteRtWebGpuAccelerator",
+    srcs: ["lib64/libLiteRtWebGpuAccelerator.so"],
+    compile_multilib: "64",
+    shared_libs: [
+        "libEGL",
+        "libLiteRtGpuAccelerator",
+        "libGLESv3",
+        "liblog",
+    ],
+    allow_undefined_symbols: true,
+}
